@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>939</width>
+    <height>631</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Menu</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+*{
+color: #fff;
+font-family: url(:/fonts/Nova_Flat/NovaFlat-Regular.ttf);
+font-size: 12px;
+border: nine;
+background: none;
+}
+
+#centralwidget{
+background-color: rgb(33, 43, 51);
+}
+#left_menu_widget, #percentage_bar_chart, #nested_donuts,
+#line_charts, #bar_charts, #temperature_bar_chart
+{
+background-color: rgba(61, 80, 95, 100)
+}
+#header_frame, #frame_3, #frame_5{
+background-color: rgb(61, 80, 95);
+}
+#frame_4 QPushButton{
+padding: 10px;
+border-radius: 5px;
+background-color: rgba(33, 43, 51, 100);
+}
+#header_nav QPushButton{
+	background-color: rgb(61, 80, 95);
+	border-radius: 15px;
+	border: 3px solid rgb(120, 157, 186);
+}
+#header_nav QPushButton:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="header_nav">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>931</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>181</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QFrame" name="controlButtons">
+     <property name="geometry">
+      <rect>
+       <x>720</x>
+       <y>10</y>
+       <width>161</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="QPushButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Light </string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>10</y>
+       <width>221</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label1">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>10</y>
+       <width>231</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>:/fonts/Nova_Flat/NovaFlat-Regular.ttf</family>
+       <pointsize>-1</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label1{
+	font-size: 20px;
+}</string>
+     </property>
+     <property name="text">
+      <string>MAIN MENU</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>431</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel#label_2, QLabel#label_3, QLabel#label_4, QLabel#label_5 {
+ line-height: 1.5
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>:/fonts/Nova_Flat/NovaFlat-Regular.ttf</family>
+       <pointsize>-1</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label{
+	font-size: 18px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Instruction</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>401</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>2. Choose a certain time interval to predict prices. You can choose for several days, weeks, months and years. By default you predict for 2 days.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>411</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>:/fonts/Nova_Flat/NovaFlat-Regular.ttf</family>
+       <pointsize>-1</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>1. Download the data from API. After downloading the data your result will be stored in cache. You can clear cache manually by pressign &quot;Clear cache&quot; button which will appear after response.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>401</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>3. Now it is time to predict prices. Press the &quot;Predict&quot; button to start modeling data and creating a full report of the preidction. You will see results in the new window where you can navigate through charts by sidebar to see the results.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>270</y>
+       <width>401</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>4. In addition to previous stage, the program stores model fitting results in cache to deal with the same data faster in the next time. Of course you have an opportunity to clear cache manually by pressing &quot;Clear model&quot; button.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>360</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>:/fonts/Nova_Flat/NovaFlat-Regular.ttf</family>
+       <pointsize>-1</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label_6{
+	font-size: 16px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Extra</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>400</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1. You have two options what to do with results. First one is about creating .csv file which consists of prediction results</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>440</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>2. Second one creates PDF report which displays all charts </string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_5">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>90</y>
+      <width>471</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#clearCache, QPushButton#clearModel, QPushButton#convertCSV,
+QPushButton#convertPDF, QPushButton#fetchButton {
+	background-color: rgb(61, 80, 120);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+
+QPushButton#clearCache, QPushButton#clearModel, QPushButton#convertCSV,
+QPushButton#convertPDF, QPushButton#fetchButton :hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>381</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>:/fonts/Nova_Flat/NovaFlat-Regular.ttf</family>
+       <pointsize>-1</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label_10{
+	font-size: 18px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Form</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>50</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label_11{
+	font-size: 15px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Load the data from the server</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="fetchButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>100</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#fetchButton {
+	background-color: rgb(61, 80, 95);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+#fetchButton:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+     </property>
+     <property name="text">
+      <string>Fetch</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>100</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#resultsMsg{
+	display: hidden;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_12">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>210</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label_12{
+	font-size: 15px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Choose the interval</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="timeIntervals">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>260</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox#timeIntervals{
+	border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: rgba(61, 80, 95, 100);
+}
+
+QComboBox#timeIntervals QAbstractItemView {
+	color: 000;
+}</string>
+     </property>
+     <property name="currentText">
+      <string>days</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="placeholderText">
+      <string notr="true"/>
+     </property>
+     <item>
+      <property name="text">
+       <string>days</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>weeks</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>months</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>years</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QSpinBox" name="spinBox">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>260</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QSpinBox#spinBox{
+	 border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: rgba(61, 80, 95, 100);
+    padding: 5px; /* Adjust as needed */
+}</string>
+     </property>
+     <property name="minimum">
+      <number>2</number>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="clearCache">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>160</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#clearCache {
+	background-color: rgb(61, 80, 95);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+#clearCache:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+     </property>
+     <property name="text">
+      <string>Clear cache</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>300</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label_13{
+	font-size: 15px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Predict prices</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="predictPrices">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>350</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#predictPrices{
+	background-color: rgb(61, 80, 120);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+
+QPushButton#predictPrices:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+     </property>
+     <property name="text">
+      <string>Predict</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="clearModel">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>350</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#clearModel{
+	background-color: rgb(61, 80, 120);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+
+QPushButton#clearModel:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+     </property>
+     <property name="text">
+      <string>Clear model</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="convertCSV">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>450</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#convertCSV {
+	background-color: rgb(61, 80, 120);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+#convertCSV:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+     </property>
+     <property name="text">
+      <string>Convert to CSV</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="convertPDF">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>450</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#convertPDF {
+	background-color: rgb(61, 80, 120);
+	border-radius: 5px;
+	border: 3px solid rgb(120, 157, 186);
+}
+#convertPDF:hover{
+	background-color: rgb(120, 157, 186);
+}</string>
+     </property>
+     <property name="text">
+      <string>Convert to PDF</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>400</y>
+       <width>171</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel#label_14{
+	font-size: 15px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Optional</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_6">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>400</y>
+       <width>351</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#frame_6 {
+ display: hidden;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <zorder>frame_6</zorder>
+    <zorder>label_10</zorder>
+    <zorder>label_11</zorder>
+    <zorder>fetchButton</zorder>
+    <zorder>label_15</zorder>
+    <zorder>label_12</zorder>
+    <zorder>timeIntervals</zorder>
+    <zorder>spinBox</zorder>
+    <zorder>clearCache</zorder>
+    <zorder>label_13</zorder>
+    <zorder>predictPrices</zorder>
+    <zorder>clearModel</zorder>
+    <zorder>convertCSV</zorder>
+    <zorder>convertPDF</zorder>
+    <zorder>label_14</zorder>
+   </widget>
+  </widget>
+  <action name="actionDark">
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionLight">
+   <property name="text">
+    <string>Light</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionUkrainian">
+   <property name="text">
+    <string>Ukrainian</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
