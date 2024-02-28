@@ -1,5 +1,5 @@
-from PySide6.QtCore import QObject
-
+from PySide6.QtCore import QObject, QCoreApplication
+from PySide6.QtGui import QMovie
 from mvc.model import Model
 from mvc.view.ui_config import MAIN_MENU_DARK, MAIN_MENU_LIGHT
 from mvc.view.mainmenu.mainview import MainView 
@@ -16,8 +16,16 @@ class Controller(QObject):
         self.main_menu.ui.fetchButton.clicked.connect(self.show_charts)
 
     def show_charts(self) -> None:
+        movie = QMovie('icons\loading_spinner.svg')
+        
+        self.main_menu.ui.label_15.setMovie(movie)
+        movie.start()
+
+        QCoreApplication.processEvents()
         self.model.get_crypto_data()
-        print("Request completed")
+        movie.stop()
+        self.main_menu.ui.label_15.setText("Success!")
+
         self.charts_view.show()
         self.charts_view.charts_shadow_effects()
 
