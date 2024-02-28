@@ -128,7 +128,7 @@ background-color: rgba(33, 43, 51, 100);
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../resources.qrc">:/icons/icons/pie-chart.svg</pixmap>
+             <pixmap>:/icons/icons/pie-chart.svg</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -189,7 +189,7 @@ background-color: rgba(33, 43, 51, 100);
              <string>Percentage Bar Chart</string>
             </property>
             <property name="icon">
-             <iconset resource="../resources.qrc">
+             <iconset>
               <normaloff>:/icons/icons/bar-chart-2.svg</normaloff>:/icons/icons/bar-chart-2.svg</iconset>
             </property>
            </widget>
@@ -200,7 +200,7 @@ background-color: rgba(33, 43, 51, 100);
              <string>Nested Donuts</string>
             </property>
             <property name="icon">
-             <iconset resource="../resources.qrc">
+             <iconset>
               <normaloff>:/icons/icons/target.svg</normaloff>:/icons/icons/target.svg</iconset>
             </property>
            </widget>
@@ -211,7 +211,7 @@ background-color: rgba(33, 43, 51, 100);
              <string>Line Charts</string>
             </property>
             <property name="icon">
-             <iconset resource="../resources.qrc">
+             <iconset>
               <normaloff>:/icons/icons/git-merge.svg</normaloff>:/icons/icons/git-merge.svg</iconset>
             </property>
            </widget>
@@ -222,7 +222,7 @@ background-color: rgba(33, 43, 51, 100);
              <string>Bar Charts</string>
             </property>
             <property name="icon">
-             <iconset resource="../resources.qrc">
+             <iconset>
               <normaloff>:/icons/icons/bar-chart.svg</normaloff>:/icons/icons/bar-chart.svg</iconset>
             </property>
            </widget>
@@ -661,7 +661,7 @@ background-color: rgba(33, 43, 51, 100);
  </widget>
  <resources>
   <include location="../resources.qrc"/>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

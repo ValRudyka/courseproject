@@ -1,6 +1,8 @@
 from alpha_vantage.cryptocurrencies import CryptoCurrencies
 import json
 import datetime
+import os
+
 
 class Model:
     def __load_cache(self) -> None | str:
@@ -23,7 +25,7 @@ class Model:
         
         if (not data):
             return False
-
+  
         cache_date = json.loads(data).get("date")
         
         cache_date = datetime.datetime.strptime(cache_date, '%d-%m-%y').date()
@@ -49,7 +51,7 @@ class Model:
             self.btc_daily = self.__load_cache()
             return None
 
-        btc_curr = CryptoCurrencies(key='JT4JD9CMK0L9FOSG')
+        btc_curr = CryptoCurrencies(key=os.getenv("API_KEY"))
         btc_daily = btc_curr.get_digital_currency_daily(symbol='BTC', market='USD')
         self.btc_daily =  btc_daily 
 

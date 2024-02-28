@@ -10,6 +10,7 @@ __pycache__/
 # C extensions
 *.so
 
+# Custom cache files
 
 # Distribution / packaging
 .Python
@@ -88,3 +89,4 @@ celerybeat-schedule
 
 # Rope project settings
 .ropeproject
+cache/btc_daily.json
