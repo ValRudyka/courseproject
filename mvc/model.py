@@ -20,11 +20,12 @@ class Model:
 
     def _is_valid_cache(self) -> bool:
         data = self.__load_cache()
-        
+
         if (not isinstance(data, pd.DataFrame) or data.empty):
             return False  
         
         cache_date = data.index[-1].date()
+        print(cache_date)
         now = datetime.datetime.now().date()
 
         return now == cache_date
@@ -50,8 +51,19 @@ class Model:
         btc_curr = CryptoCurrencies(key=os.getenv("API_KEY"), output_format='pandas')
         btc_daily, _ = btc_curr.get_digital_currency_daily(symbol='BTC', market='USD')
         self.btc_daily = pd.DataFrame.from_dict(btc_daily);
+    
+        self._preprocessing()
+
+
+    def _preprocessing(self) -> None:
+        columns = ['1a. open (USD)', '2a. high (USD)', '3a. low (USD)', '4a. close (USD)', '5. volume']
+        
         self.btc_daily.index = pd.to_datetime(self.btc_daily.index)
+        self.btc_daily = self.btc_daily.T.drop_duplicates().T
+        
+        self.btc_daily.sort_index(inplace=True)
+
+        for column in columns:
+            self.btc_daily[column] = pd.to_numeric(self.btc_daily[column])
 
         self.__save_cache(self.btc_daily)
-
-        
