@@ -2,12 +2,10 @@ from alpha_vantage.cryptocurrencies import CryptoCurrencies
 import pandas as pd
 import numpy as np
 
-from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 
 from keras.models import Sequential, load_model
-from keras.layers import Dense, LSTM, Dropout
-from keras.metrics import Accuracy
+from keras.layers import Dense, LSTM
 import tensorflow as tf
 
 import datetime
@@ -21,7 +19,7 @@ class Model:
         self.__theme = "dark"
         self.__cache_filename = './cache/btc_daily.csv'
         self.__btc_daily = pd.DataFrame()
-        self.predictions = []   
+        self.__predictions = []   
 
     #private methods:
     def __load_cache(self) -> None | pd.DataFrame:
@@ -36,7 +34,6 @@ class Model:
     def clear_cache(self, path: str) -> None:
         with open(path, 'w'):
             pass
-        os.remove('./cache/lstm_model.h5')
 
     def _is_valid_cache(self) -> bool:
         data = self.__load_cache()
@@ -46,7 +43,7 @@ class Model:
         
         cache_date = data.index[-1].date()
         print(cache_date)
-        now = datetime.datetime.today() - datetime.timedelta(days=1)
+        now = datetime.datetime.now()
 
         return now.date() == cache_date
 
@@ -112,21 +109,18 @@ class Model:
 
             model = Sequential()
             model.add(LSTM(50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
-            # model.add(Dropout(0.2))
             model.add(LSTM(50, return_sequences=True))
-            # model.add(Dropout(0.2))
             model.add(LSTM(50))
-            # model.add(Dropout(0.2))
             model.add(Dense(1))
 
             model.compile(optimizer='adam', loss='mean_squared_error')
-            model.fit(x_train, y_train, epochs=15, batch_size=64)
+            model.fit(x_train, y_train, epochs=10, batch_size=64)
 
             model.save('./cache/lstm_model.h5')
         except ValueError as val_e:
             print(str(val_e))
 
-    def predict_model(self, num_days: int, window_size: int = 10) -> list:
+    def predict_model(self, num_days: int, window_size: int = 10) -> None:
         _, _, scaler = self.__pre_train(window_size)
         series = self.__btc_daily['4b. close (USD)'].values
 
@@ -151,12 +145,15 @@ class Model:
             
             last_window = np.append(last_window[1:], prediction_scaled, axis=0)
 
-        return predictions
+        self.__predictions = predictions;
+        print(self.__predictions)
 
-    def get_actual_data(self) -> tuple:
-        actual_prices = self.__btc_daily['4b. close (USD)'].values
+    def get_actual_data(self) -> tuple[pd.Series, list, pd.DatetimeIndex, pd.Index]:
+        actual_prices = self.__btc_daily['4b. close (USD)']
         timestamps = self.__btc_daily.index
+        x_pred = pd.date_range(start=timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
 
-        return actual_prices, timestamps
+
+        return actual_prices, self.__predictions, x_pred, timestamps
 
 
