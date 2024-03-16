@@ -2,7 +2,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-import mvc.view.resources_rc
+from mvc.view import resources_rc
 
 class Ui_ChartsWindow(QObject):
     def setupUi(self, MainWindow):
@@ -12,41 +12,41 @@ class Ui_ChartsWindow(QObject):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"@font-face {\n"
-        "    font-family: NovaFlat;\n"
-        "    src: url(./Nova_Flat/NovaFlat-Regular.ttf) format(\"truetype\");\n"
-        "}\n"
-        "*{\n"
-        "color: #fff;\n"
-        "font-family: NovaFlat;\n"
-        "font-size: 12px;\n"
-        "border: nine;\n"
-        "background: none;\n"
-        "}\n"
-        "#centralwidget{\n"
-        "background-color: rgb(33, 43, 51);\n"
-        "}\n"
-        "#left_menu_widget, #percentage_bar_chart, #nested_donuts,\n"
-        "#line_charts, #bar_charts, #temperature_bar_chart\n"
-        "{\n"
-        "background-color: rgba(61, 80, 95, 100)\n"
-        "}\n"
-        "#header_frame, #frame_3, #frame_5{\n"
-        "background-color: rgb(61, 80, 95);\n"
-        "}\n"
-        "#frame_4 QPushButton{\n"
-        "padding: 10px;\n"
-        "border-radius: 5px;\n"
-        "background-color: rgba(33, 43, 51, 100);\n"
-        "}\n"
-        "#header_nav QPushButton{\n"
-        "	background-color: rgb(61, 80, 95);\n"
-        "	border-radius: 15px;\n"
-        "	border: 3px solid rgb(120, 157, 186);\n"
-        "}\n"
-        "#header_nav QPushButton:hover{\n"
-        "	background-color: rgb(120, 157, 186);\n"
-        "}\n"
-        "")
+            "    font-family: NovaFlat;\n"
+            "    src: url(:/fonts/Nova_Flat/NovaFlat-Regular.ttf) format(\"truetype\");\n"
+            "}\n"
+            "*{\n"
+            "color: #fff;\n"
+            "font-family: NovaFlat;\n"
+            "font-size: 12px;\n"
+            "border: none;\n"
+            "background: none;\n"
+            "}\n"
+            "#centralwidget{\n"
+            "background-color: rgb(33, 43, 51);\n"
+            "}\n"
+            "#left_menu_widget, #percentage_bar_chart, #nested_donuts,\n"
+            "#line_charts, #bar_charts, #temperature_bar_chart\n"
+            "{\n"
+            "background-color: rgba(61, 80, 95, 100)\n"
+            "}\n"
+            "#header_frame, #frame_3, #frame_5{\n"
+            "background-color: rgb(61, 80, 95);\n"
+            "}\n"
+            "#frame_4 QPushButton{\n"
+            "padding: 10px;\n"
+            "border-radius: 5px;\n"
+            "background-color: rgba(33, 43, 51, 100);\n"
+            "}\n"
+            "#header_nav QPushButton{\n"
+            "	background-color: rgb(61, 80, 95);\n"
+            "	border-radius: 15px;\n"
+            "	border: 3px solid rgb(120, 157, 186);\n"
+            "}\n"
+            "#header_nav QPushButton:hover{\n"
+            "	background-color: rgb(120, 157, 186);\n"
+            "}\n"
+            "")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -78,7 +78,6 @@ class Ui_ChartsWindow(QObject):
         self.label.setObjectName(u"label")
         font = QFont()
         font.setFamily(u"NovaFlat")
-        font.setBold(True)
         self.label.setFont(font)
 
         self.horizontalLayout_2.addWidget(self.label)
@@ -99,37 +98,37 @@ class Ui_ChartsWindow(QObject):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.percentage_bar_btn = QPushButton(self.frame_4)
-        self.percentage_bar_btn.setObjectName(u"percentage_bar_btn")
-        icon = QIcon()
-        icon.addFile(u"./icons/bar-chart-2.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.percentage_bar_btn.setIcon(icon)
-
-        self.verticalLayout_2.addWidget(self.percentage_bar_btn)
-
-        self.nested_donut_btn = QPushButton(self.frame_4)
-        self.nested_donut_btn.setObjectName(u"nested_donut_btn")
-        icon1 = QIcon()
-        icon1.addFile(u"./icons/target.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.nested_donut_btn.setIcon(icon1)
-
-        self.verticalLayout_2.addWidget(self.nested_donut_btn)
-
         self.line_chart_btn = QPushButton(self.frame_4)
         self.line_chart_btn.setObjectName(u"line_chart_btn")
-        icon2 = QIcon()
-        icon2.addFile(u"./icons/git-merge.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.line_chart_btn.setIcon(icon2)
+        icon = QIcon()
+        icon.addFile(u"./icons/git-merge.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.line_chart_btn.setIcon(icon)
 
         self.verticalLayout_2.addWidget(self.line_chart_btn)
 
-        self.bar_charts_btn = QPushButton(self.frame_4)
-        self.bar_charts_btn.setObjectName(u"bar_charts_btn")
+        self.area_chart_btn = QPushButton(self.frame_4)
+        self.area_chart_btn.setObjectName(u"area_chart_btn")
+        icon1 = QIcon()
+        icon1.addFile(u"./icons/target.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.area_chart_btn.setIcon(icon1)
+
+        self.verticalLayout_2.addWidget(self.area_chart_btn)
+
+        self.probability_distr_btn = QPushButton(self.frame_4)
+        self.probability_distr_btn.setObjectName(u"probability_distr_btn")
+        icon2 = QIcon()
+        icon2.addFile(u"./icons/bar-chart-2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.probability_distr_btn.setIcon(icon2)
+
+        self.verticalLayout_2.addWidget(self.probability_distr_btn)
+
+        self.scatter_plot_btn = QPushButton(self.frame_4)
+        self.scatter_plot_btn.setObjectName(u"scatter_plot_btn")
         icon3 = QIcon()
         icon3.addFile(u"./icons/bar-chart.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.bar_charts_btn.setIcon(icon3)
+        self.scatter_plot_btn.setIcon(icon3)
 
-        self.verticalLayout_2.addWidget(self.bar_charts_btn)
+        self.verticalLayout_2.addWidget(self.scatter_plot_btn)
 
 
         self.verticalLayout.addWidget(self.frame_4)
@@ -386,10 +385,10 @@ class Ui_ChartsWindow(QObject):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_14.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Results", None))
-        self.percentage_bar_btn.setText(QCoreApplication.translate("MainWindow", u"Percentage Bar Chart", None))
-        self.nested_donut_btn.setText(QCoreApplication.translate("MainWindow", u"Nested Donuts", None))
         self.line_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Line Charts", None))
-        self.bar_charts_btn.setText(QCoreApplication.translate("MainWindow", u"Bar Charts", None))
+        self.area_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Area Charts", None))
+        self.probability_distr_btn.setText(QCoreApplication.translate("MainWindow", u"Probability Distribution", None))
+        self.scatter_plot_btn.setText(QCoreApplication.translate("MainWindow", u"Scatter Plot", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"DASHBOARD", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Percentage Bar Chart", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Temperature Bar Chart", None))

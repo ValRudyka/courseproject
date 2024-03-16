@@ -184,28 +184,6 @@ background-color: rgba(33, 43, 51, 100);
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="percentage_bar_btn">
-            <property name="text">
-             <string>Percentage Bar Chart</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/icons/icons/bar-chart-2.svg</normaloff>:/icons/icons/bar-chart-2.svg</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="nested_donut_btn">
-            <property name="text">
-             <string>Nested Donuts</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/icons/icons/target.svg</normaloff>:/icons/icons/target.svg</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="line_chart_btn">
             <property name="text">
              <string>Line Charts</string>
@@ -217,9 +195,31 @@ background-color: rgba(33, 43, 51, 100);
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="bar_charts_btn">
+           <widget class="QPushButton" name="area_chart_btn">
             <property name="text">
-             <string>Bar Charts</string>
+             <string>Area Charts</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/icons/target.svg</normaloff>:/icons/icons/target.svg</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="probability_distr_btn">
+            <property name="text">
+             <string>Probability Distribution</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/icons/bar-chart-2.svg</normaloff>:/icons/icons/bar-chart-2.svg</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="scatter_plot_btn">
+            <property name="text">
+             <string>Scatter Plot</string>
             </property>
             <property name="icon">
              <iconset>
