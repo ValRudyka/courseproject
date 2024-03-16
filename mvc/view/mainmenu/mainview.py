@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QGraphicsDropShadowEffect
 from PySide6.QtGui import QColor
 
-from shadow_elements import shadow_elements_main
+from config import shadow_elements_main
 from mvc.view.interface.chartsview import ChartsView
 
 from mvc.view.mainmenu.ui_mainmenu import Ui_MainWindow

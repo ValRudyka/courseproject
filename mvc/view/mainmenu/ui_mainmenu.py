@@ -122,14 +122,14 @@ class Ui_MainWindow(QObject):
         self.frame_5 = QFrame(self.centralwidget)
         self.frame_5.setObjectName(u"frame_5")
         self.frame_5.setGeometry(QRect(460, 90, 471, 531))
-        self.frame_5.setStyleSheet(u"QPushButton#clearCache, QPushButton#clearModel, QPushButton#convertCSV,\n"
+        self.frame_5.setStyleSheet(u"QPushButton#clearCache, QPushButton#clearModel, QPushButton#loadDataset,\n"
 "QPushButton#convertPDF, QPushButton#fetchButton {\n"
 "	background-color: rgb(61, 80, 120);\n"
 "	border-radius: 5px;\n"
 "	border: 3px solid rgb(120, 157, 186);\n"
 "}\n"
 "\n"
-"QPushButton#clearCache, QPushButton#clearModel, QPushButton#convertCSV,\n"
+"QPushButton#clearCache, QPushButton#clearModel, QPushButton#loadDataset,\n"
 "QPushButton#convertPDF, QPushButton#fetchButton :hover{\n"
 "	background-color: rgb(120, 157, 186);\n"
 "}")
@@ -246,15 +246,15 @@ class Ui_MainWindow(QObject):
 "QPushButton#clearModel:hover{\n"
 "	background-color: rgb(120, 157, 186);\n"
 "}")
-        self.convertCSV = QPushButton(self.frame_5)
-        self.convertCSV.setObjectName(u"convertCSV")
-        self.convertCSV.setGeometry(QRect(60, 450, 111, 41))
-        self.convertCSV.setStyleSheet(u"#convertCSV {\n"
+        self.loadDataset = QPushButton(self.frame_5)
+        self.loadDataset.setObjectName(u"loadDataset")
+        self.loadDataset.setGeometry(QRect(60, 450, 111, 41))
+        self.loadDataset.setStyleSheet(u"#loadDataset {\n"
 "	background-color: rgb(61, 80, 120);\n"
 "	border-radius: 5px;\n"
 "	border: 3px solid rgb(120, 157, 186);\n"
 "}\n"
-"#convertCSV:hover{\n"
+"#loadDataset:hover{\n"
 "	background-color: rgb(120, 157, 186);\n"
 "}")    
         self.convertPDF = QPushButton(self.frame_5)
@@ -293,7 +293,7 @@ class Ui_MainWindow(QObject):
         self.label_13.raise_()
         self.predictPrices.raise_()
         self.clearModel.raise_()
-        self.convertCSV.raise_()
+        self.loadDataset.raise_()
         self.convertPDF.raise_()
         self.label_14.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
@@ -304,7 +304,7 @@ class Ui_MainWindow(QObject):
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
-
+        
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.actionDark.setText(QCoreApplication.translate("MainWindow", u"Dark mode", None))
@@ -320,7 +320,7 @@ class Ui_MainWindow(QObject):
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"3. Now it is time to predict prices. Press the \"Predict\" button to start modeling data and creating a full report of the preidction. You will see results in the new window where you can navigate through charts by sidebar to see the results.", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"4. In addition to previous stage, the program stores model fitting results in cache to deal with the same data faster in the next time. Of course you have an opportunity to clear cache manually by pressing \"Clear model\" button.", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Extra", None))
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"1. You have two options what to do with results. First one is about creating .csv file which consists of prediction results", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"1. You have two options what to do with results. First one is about loading the whole dataset which will be stored as Excel file", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"2. Second one creates PDF report which displays all charts ", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Form", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Load the data from the server", None))
@@ -337,7 +337,7 @@ class Ui_MainWindow(QObject):
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Predict prices", None))
         self.predictPrices.setText(QCoreApplication.translate("MainWindow", u"Predict", None))
         self.clearModel.setText(QCoreApplication.translate("MainWindow", u"Clear model", None))
-        self.convertCSV.setText(QCoreApplication.translate("MainWindow", u"Convert to CSV", None))
+        self.loadDataset.setText(QCoreApplication.translate("MainWindow", u"Load dataset", None))
         self.convertPDF.setText(QCoreApplication.translate("MainWindow", u"Convert to PDF", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Optional", None))
     # retranslateUi

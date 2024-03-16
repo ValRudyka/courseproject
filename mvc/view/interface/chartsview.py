@@ -1,20 +1,90 @@
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QGraphicsDropShadowEffect
 from PySide6.QtWidgets import QGraphicsDropShadowEffect
 from PySide6.QtGui import QColor
 
-from shadow_elements import shadow_elements_charts
-
+from config import shadow_elements_charts
 from mvc.view.interface.ui_interface import Ui_ChartsWindow
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+class Canvas(FigureCanvas):
+    def __init__(self, width: int, height: int) -> None:
+        fig = Figure(figsize=(width, height))
+        self.axes = fig.add_subplot(111)
+        super(Canvas, self).__init__(fig)
 
 class ChartsView(QMainWindow):
     def __init__(self) -> None:
         super(ChartsView, self).__init__()
+        self.__canvas = Canvas(10, 6)
         self.build_ui()
 
     def build_ui(self) -> None:
         self.ui = Ui_ChartsWindow()
         self.ui.setupUi(self)
+
+        self.canvas_layout = QVBoxLayout()
+        self.canvas_widget = QWidget()
+        self.canvas_widget.setLayout(self.canvas_layout)
+        self.ui.frame_16.layout().addWidget(self.canvas_widget)
+
+    def clear_layout(self) -> None:
+        for i in reversed(range(self.canvas_layout.count())):
+            self.canvas_layout.itemAt(i).widget().setParent(None)
+
+    def display_line_chart(self, predicted_data: tuple) -> None:
+        self.__canvas.axes.clear()
+        actual_prices, pred_prices, pred_timestamps, actual_timestamps = predicted_data
+
+        self.__canvas.axes.plot(actual_timestamps, actual_prices.values, color='r', label='Actual prices')
+        self.__canvas.axes.plot(pred_timestamps, pred_prices, color='b', label='Predicted prices')
+
+        self.__canvas.axes.set_title('BTC price prediction')
+        self.__canvas.axes.set_xlabel('Date')
+        self.__canvas.axes.set_ylabel('Prices (USD)')
+        self.__canvas.axes.legend()
+
+        self.canvas_layout.addWidget(self.__canvas)
+        self.__canvas.draw()
+
+    def display_area_chart(self, predicted_data: tuple) -> None:
+        self.clear_layout()
+        actual_prices, pred_prices, pred_timestamps, actual_timestamps = predicted_data
+        
+        self.__canvas.axes.clear()
+        self.__canvas.axes.plot(actual_timestamps, actual_prices.values, color='r', label='Actual prices')
+        self.__canvas.axes.fill_between(actual_timestamps, actual_prices.values, color='r', alpha=0.3)
+        self.__canvas.axes.plot(pred_timestamps, pred_prices, color='b', label='Predicted prices')
+        self.__canvas.axes.fill_between(pred_timestamps, pred_prices, color='b', alpha=0.3)
+        
+        self.__canvas.axes.set_title('BTC prices comparison')
+        self.__canvas.axes.set_xlabel('Date')
+        self.__canvas.axes.set_ylabel('Prices (USD)')
+        self.__canvas.axes.legend()
+
+        self.canvas_layout.addWidget(self.__canvas)
+        self.__canvas.draw()
+    
+    # def display_bar_chart(self, predicted_data: tuple) -> None:
+    #     pass
+
+    def display_scatter_plot(self, predicted_data: tuple) -> None:
+        self.clear_layout()
+        actual_prices, pred_prices, pred_timestamps, _ = predicted_data
+
+        self.__canvas.axes.clear()
+        self.__canvas.axes.scatter(actual_prices.index, actual_prices, color='b', label='Actual prices')
+        self.__canvas.axes.scatter(pred_timestamps, pred_prices, color='r', label='Predicted prices')
+
+        self.__canvas.axes.set_title('BTC prices Actual vs Predicted')
+        self.__canvas.axes.set_xlabel('Date')
+        self.__canvas.axes.set_ylabel('Prices (USD)')
+        self.__canvas.axes.legend()
+        self.__canvas.axes.grid(True)
+
+        self.canvas_layout.addWidget(self.__canvas)
+        self.__canvas.draw()
 
     def dark_mode(self) -> None:
         self.ui.centralwidget.setStyleSheet(u"@font-face {\n"
