@@ -10,3 +10,6 @@ shadow_elements_charts = {
     'header_frame',
     'frame_8'
 }
+
+TITLE  = "BTC price prediction report"
+

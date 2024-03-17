@@ -6,11 +6,7 @@ from mvc.controller import Controller
 from mvc.view.mainmenu.mainview import MainView
 from mvc.view.interface.chartsview import ChartsView
 
-import os
-
-
 if __name__ == "__main__":
-    os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
     load_dotenv()
     
     app = QApplication([])
