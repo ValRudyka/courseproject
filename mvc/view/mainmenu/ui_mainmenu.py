@@ -122,14 +122,14 @@ class Ui_MainWindow(QObject):
         self.frame_5 = QFrame(self.centralwidget)
         self.frame_5.setObjectName(u"frame_5")
         self.frame_5.setGeometry(QRect(460, 90, 471, 531))
-        self.frame_5.setStyleSheet(u"QPushButton#clearCache, QPushButton#clearModel, QPushButton#loadDataset,\n"
+        self.frame_5.setStyleSheet(u"QPushButton#clearCache,  QPushButton#loadDataset,\n"
 "QPushButton#convertPDF, QPushButton#fetchButton {\n"
 "	background-color: rgb(61, 80, 120);\n"
 "	border-radius: 5px;\n"
 "	border: 3px solid rgb(120, 157, 186);\n"
 "}\n"
 "\n"
-"QPushButton#clearCache, QPushButton#clearModel, QPushButton#loadDataset,\n"
+"QPushButton#clearCache, QPushButton#loadDataset,\n"
 "QPushButton#convertPDF, QPushButton#fetchButton :hover{\n"
 "	background-color: rgb(120, 157, 186);\n"
 "}")
@@ -216,12 +216,12 @@ class Ui_MainWindow(QObject):
 "}")
         self.label_13 = QLabel(self.frame_5)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setGeometry(QRect(20, 300, 161, 41))
+        self.label_13.setGeometry(QRect(20, 300, 391, 31))
         self.label_13.setStyleSheet(u"QLabel#label_13{\n"
 "	font-size: 15px;\n"
 "}")
         self.label_13.setTextFormat(Qt.PlainText)
-        self.label_13.setAlignment(Qt.AlignCenter)
+        self.label_13.setAlignment(Qt.AlignLeft)
         self.predictPrices = QPushButton(self.frame_5)
         self.predictPrices.setObjectName(u"predictPrices")
         self.predictPrices.setGeometry(QRect(60, 350, 101, 41))
@@ -234,18 +234,7 @@ class Ui_MainWindow(QObject):
 "QPushButton#predictPrices:hover{\n"
 "	background-color: rgb(120, 157, 186);\n"
 "}")    
-        self.clearModel = QPushButton(self.frame_5)
-        self.clearModel.setObjectName(u"clearModel")
-        self.clearModel.setGeometry(QRect(220, 350, 111, 41))
-        self.clearModel.setStyleSheet(u"QPushButton#clearModel{\n"
-"	background-color: rgb(61, 80, 120);\n"
-"	border-radius: 5px;\n"
-"	border: 3px solid rgb(120, 157, 186);\n"
-"}\n"
-"\n"
-"QPushButton#clearModel:hover{\n"
-"	background-color: rgb(120, 157, 186);\n"
-"}")
+        
         self.loadDataset = QPushButton(self.frame_5)
         self.loadDataset.setObjectName(u"loadDataset")
         self.loadDataset.setGeometry(QRect(60, 450, 111, 41))
@@ -270,12 +259,12 @@ class Ui_MainWindow(QObject):
 "}")
         self.label_14 = QLabel(self.frame_5)
         self.label_14.setObjectName(u"label_14")
-        self.label_14.setGeometry(QRect(130, 400, 171, 41))
+        self.label_14.setGeometry(QRect(40, 400, 451, 31))
         self.label_14.setStyleSheet(u"QLabel#label_14{\n"
 "	font-size: 15px;\n"
 "}")
         self.label_14.setTextFormat(Qt.PlainText)
-        self.label_14.setAlignment(Qt.AlignCenter)
+        self.label_14.setAlignment(Qt.AlignVCenter)
         self.frame_6 = QFrame(self.frame_5)
         self.frame_6.setObjectName(u"frame_6")
         self.frame_6.setGeometry(QRect(40, 400, 351, 121))
@@ -292,7 +281,6 @@ class Ui_MainWindow(QObject):
         self.clearCache.raise_()
         self.label_13.raise_()
         self.predictPrices.raise_()
-        self.clearModel.raise_()
         self.loadDataset.raise_()
         self.convertPDF.raise_()
         self.label_14.raise_()
@@ -318,7 +306,7 @@ class Ui_MainWindow(QObject):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"2. Choose a certain time interval to predict prices. You can choose for several days, weeks, months and years. By default you predict for 2 days.", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"1. Download the data from API. After downloading the data your result will be stored in cache. You can clear cache manually by pressign \"Clear cache\" button which will appear after response.", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"3. Now it is time to predict prices. Press the \"Predict\" button to start modeling data and creating a full report of the preidction. You will see results in the new window where you can navigate through charts by sidebar to see the results.", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"4. In addition to previous stage, the program stores model fitting results in cache to deal with the same data faster in the next time. Of course you have an opportunity to clear cache manually by pressing \"Clear model\" button.", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"4. In addition to previous stage, the program stores model fitting results in cache to deal with the same data faster in the next time.", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Extra", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"1. You have two options what to do with results. First one is about loading the whole dataset which will be stored as Excel file", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"2. Second one creates PDF report which displays all charts ", None))
@@ -336,7 +324,6 @@ class Ui_MainWindow(QObject):
         self.clearCache.setText(QCoreApplication.translate("MainWindow", u"Clear cache", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Predict prices", None))
         self.predictPrices.setText(QCoreApplication.translate("MainWindow", u"Predict", None))
-        self.clearModel.setText(QCoreApplication.translate("MainWindow", u"Clear model", None))
         self.loadDataset.setText(QCoreApplication.translate("MainWindow", u"Load dataset", None))
         self.convertPDF.setText(QCoreApplication.translate("MainWindow", u"Convert to PDF", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Optional", None))
