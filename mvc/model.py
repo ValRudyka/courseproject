@@ -2,53 +2,84 @@ from alpha_vantage.cryptocurrencies import CryptoCurrencies
 
 import pandas as pd
 import numpy as np
-import datetime
 import os
 import tensorflow as tf
+from datetime import datetime
 
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
 from keras.models import Sequential, load_model
-from keras.layers import Dense, LSTM
+from keras.layers import Dense, LSTM, Dropout
+from keras.callbacks import EarlyStopping
+
+from fpdf import FPDF
+import matplotlib.pyplot as plt
 
 np.random.seed(42)
 tf.random.set_seed(42)
 
+# PDF usage
+class PDF(FPDF):
+    def write_to_pdf(self, words: str) -> None:
+        self.set_text_color(r=0, g=0, b=0)
+        self.set_font('Helvetica', '', 12)
+
+        self.write(5, words)
+
+    def create_title(self, title: str) -> None:
+        self.set_font('Helvetica', 'b', 12)
+        self.ln(40) # ln means line break
+
+        self.write(5, title)
+        self.ln(10)
+
+        self.set_font('Helvetica', '', 14)
+        self.set_text_color(r=128, g=128, b=128)
+        today = datetime.today().strftime('%d/%m/%Y')
+        self.write(4, today)
+
+        self.ln(10)
+
+# Business logic
 class Model:
     def __init__(self) -> None:
         self.__theme = "dark"
         self.__btc_daily = pd.DataFrame()
-        self.__predictions = []   
+        self.__predictions = []
 
-    #private methods:
+    # Private methods:
+    @property
+    def __actual_values(self) -> np.ndarray:
+        return self.__btc_daily['4b. close (USD)'].values
+
+    @property
+    def __actual_timestamps(self) -> pd.Index:
+        return self.__btc_daily.index
+
     def __load_cache(self, path: str) -> None | pd.DataFrame:
         try:
-                return pd.read_csv(path, index_col=0, parse_dates=True)
+            return pd.read_csv(path, index_col=0, parse_dates=True)
         except (IOError, FileNotFoundError):
             return None
 
     def _is_valid_cache(self) -> bool:
         data = self.__load_cache(os.getenv('BTC_CACHE_PATH'))
 
-        if (not isinstance(data, pd.DataFrame) or data.empty):
+        if not isinstance(data, pd.DataFrame) or data.empty:
             return False  
-        
+
         cache_date = data.index[-1].date()
-        print(cache_date)
-        now = datetime.datetime.now()
+        now = datetime.now()
 
         return now.date() == cache_date
 
     def __prepare_data(self) -> None:
-        columns = ['1b. open (USD)', '2b. high (USD)', '3b. low (USD)', '4b. close (USD)', '5. volume']
         columns_for_drop = ['1a. open (CNY)', '2a. high (CNY)', '3a. low (CNY)', '4a. close (CNY)', '6. market cap (USD)']
 
         self.__btc_daily.index = pd.to_datetime(self.__btc_daily.index)
         self.__btc_daily.drop(columns=columns_for_drop, inplace=True)
         self.__btc_daily.sort_index(inplace=True)
-
-        for column in columns:
-            self.__btc_daily[column] = pd.to_numeric(self.__btc_daily[column])
 
         self.save_cache(os.getenv('BTC_CACHE_PATH'))
 
@@ -67,7 +98,7 @@ class Model:
 
         return X, y, scaler
 
-    #public methods:
+    # Public methods:
     @property
     def theme(self) -> str:
         return self.__theme
@@ -76,6 +107,15 @@ class Model:
     def theme(self, value: str) -> None:
         self.__theme = value
   
+    @property
+    def actual_data(self) -> tuple[pd.Series, list, pd.DatetimeIndex, pd.Index]:
+        actual_prices = self.__btc_daily['4b. close (USD)']
+        timestamps = self.__btc_daily.index
+        x_pred = pd.date_range(start=timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
+
+        return actual_prices, self.__predictions, x_pred, timestamps
+
+    # working with cache
     def save_cache(self, path: str, extension: str = 'csv') -> None:
         if extension == 'csv':
             self.__btc_daily.to_csv(path)
@@ -86,38 +126,39 @@ class Model:
         with open(path, 'w'):
             pass
 
+    # working with data
     def get_crypto_data(self) -> None:
-        if (self._is_valid_cache()):
+        if self._is_valid_cache():
             self.__btc_daily = self.__load_cache(os.getenv('BTC_CACHE_PATH')) 
             return None
 
         btc_curr = CryptoCurrencies(key=os.getenv("API_KEY"), output_format='pandas')
         btc_daily, _ = btc_curr.get_digital_currency_daily(symbol='BTC', market='CNY')
-        self.__btc_daily = pd.DataFrame.from_dict(btc_daily);
+        self.__btc_daily = pd.DataFrame.from_dict(btc_daily)
     
         self.__prepare_data()
     
     def train_lstm_model(self, window_size: int = 10) -> None:
         try:
-            if (self.__btc_daily.empty):
+            if self.__btc_daily.empty:
                 raise ValueError('An empty dataset. Have you loaded it firstly before start working?')
-
-            if (os.path.exists(os.getenv('MODEL_CACHE_PATH'))):
-                return None
-
-            x_train, y_train, _ = self.__pre_train(window_size)
-
-            x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
+            
+            X, y, _ = self.__pre_train(window_size)
+            X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
             model = Sequential()
-            model.add(LSTM(50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
+            model.add(LSTM(50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+            model.add(Dropout(0.2))
             model.add(LSTM(50, return_sequences=True))
+            model.add(Dropout(0.2))
+            model.add(Dense(1))
             model.add(LSTM(50))
             model.add(Dense(1))
 
             model.compile(optimizer='adam', loss='mean_squared_error')
-            model.fit(x_train, y_train, epochs=10, batch_size=64)
+            early_stopping = EarlyStopping(patience=3, restore_best_weights=True)
 
+            model.fit(X_train, y_train, epochs=25, batch_size=64, validation_data=(X_val, y_val), callbacks=[early_stopping])
             model.save(os.getenv('MODEL_CACHE_PATH'))
         except ValueError as val_e:
             raise ValueError(val_e)
@@ -133,7 +174,7 @@ class Model:
             X_pred.append(series_scaled[i:i + window_size])
 
         X_pred = np.array(X_pred)
-
+                
         model = load_model(os.getenv('MODEL_CACHE_PATH'))
 
         predictions = []
@@ -147,12 +188,54 @@ class Model:
             
             last_window = np.append(last_window[1:], prediction_scaled, axis=0)
 
-        self.__predictions = predictions;
+        self.__predictions = predictions
         print(self.__predictions)
 
-    def get_actual_data(self) -> tuple[pd.Series, list, pd.DatetimeIndex, pd.Index]:
-        actual_prices = self.__btc_daily['4b. close (USD)']
-        timestamps = self.__btc_daily.index
-        x_pred = pd.date_range(start=timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
+    def generate_line_chart(self, filename: str) -> None:
+        ax = plt.subplot()
+        
+        x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
 
-        return actual_prices, self.__predictions, x_pred, timestamps
+        ax.plot(self.__actual_timestamps, self.__actual_values, color='r', label='Actual prices')
+        ax.plot(x_pred, self.__predictions, color='b', label='Predicted prices')
+        
+        ax.set_title('BTC prices comparison')
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Prices (USD)')
+        ax.legend()
+
+        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+
+    def generate_area_chart(self, filename: str) -> None:
+        ax = plt.subplot()
+        
+        x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
+
+        ax.plot(self.__actual_timestamps, self.__actual_values, color='r', label='Actual prices')
+        ax.fill_between(self.__actual_timestamps, self.__actual_values, color='r', alpha=0.3)
+        ax.plot(x_pred, self.__predictions, color='b', label='Predicted prices')
+        ax.fill_between(x_pred, self.__predictions, color='b', alpha=0.3)
+        
+        ax.set_title('BTC prices comparison')
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Prices (USD)')
+        ax.legend()
+
+        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+
+    def generate_scatter_plot(self, filename: str) -> None:
+        ax = plt.subplot()
+
+        x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
+
+        ax.scatter(self.__actual_timestamps, self.__actual_values, color='b', label='Actual prices')
+        ax.scatter(x_pred, self.__predictions, color='r', label='Predicted prices')
+
+        ax.set_title('BTC prices Actual vs Predicted')
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Prices (USD)')
+        ax.legend()
+        ax.grid(True)
+
+        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+
