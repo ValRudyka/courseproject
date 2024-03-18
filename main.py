@@ -11,4 +11,4 @@ if __name__ == "__main__":
     
     app = QApplication([])
     controller = Controller(Model(), MainView(), ChartsView())
-    app.exec()
+    app.exec()  

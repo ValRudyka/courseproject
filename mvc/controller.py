@@ -11,7 +11,6 @@ from config import TITLE
 from utils import create_filepath
 
 import os
-import sys
 
 class Controller(QObject):
     def __init__(self, model: Model, main_menu: MainView, charts_view: ChartsView) -> None:
@@ -29,21 +28,20 @@ class Controller(QObject):
 
         self.charts_view.ui.line_chart_btn.clicked.connect(self.line_chart)
         self.charts_view.ui.area_chart_btn.clicked.connect(self.area_chart)
-        # self.charts_view.ui.probability_distr_btn.clicked.connect(self.probability_distribution)
         self.charts_view.ui.scatter_plot_btn.clicked.connect(self.scatter_plot)
 
     # charts
     def line_chart(self) -> None:
-        self.charts_view.display_line_chart(self.model.actual_data)        
+        self.charts_view.display_line_chart(self.model.generate_line_chart)        
 
     def area_chart(self) -> None:
-        self.charts_view.display_area_chart(self.model.actual_data)
+        self.charts_view.display_area_chart(self.model.generate_area_chart)
 
-    def probability_distribution(self) -> None:
-        self.charts_view.display_distribution(self.model.actual_data)
+    # def probability_distribution(self) -> None:
+    #     self.charts_view.display_distribution(self.model.generate_)
 
     def scatter_plot(self) -> None:
-        self.charts_view.display_scatter_plot(self.model.actual_data)
+        self.charts_view.display_scatter_plot(self.model.generate_scatter_plot)
 
     # model and data    
     def clear_data(self) -> None:
@@ -55,10 +53,14 @@ class Controller(QObject):
         self.main_menu.ui.label_15.setMovie(movie)
         movie.start()
 
-        QCoreApplication.processEvents()
-        self.model.get_crypto_data()
-        movie.stop()
-        self.main_menu.ui.label_15.setText("Success!")
+        try:
+            QCoreApplication.processEvents()
+            self.model.get_crypto_data()
+            movie.stop()
+            self.main_menu.ui.label_15.setText("Success!")
+        except ValueError as val_err:
+            movie.stop()
+            self.main_menu.ui.label_15.setText(str(val_err))
 
     def save_dataset(self) -> None:
         options = QFileDialog.Options()
@@ -83,44 +85,39 @@ class Controller(QObject):
                 self.pdf.add_page()
                 self.pdf.create_title(TITLE)
 
-                line_file = create_filepath(filename, 'line_chart.png')
                 self.main_menu.ui.label_14.setText("Constructing line chart...")
-                self.model.generate_line_chart(line_file)
+                line_file = create_filepath(filename, 'line_chart.png')
+                self.model.generate_line_chart(filename=line_file, isPDF=True)
                 self.pdf.write_to_pdf("1. The line chart which displays future BTC prices")
                 self.pdf.ln(15)
 
-                self.pdf.image(line_file, w=170)
+                self.pdf.image(line_file, w=190)
                 self.pdf.ln(40)
 
                 self.pdf.add_page()
-                area_file = create_filepath(filename, 'area_chart.png')
                 self.main_menu.ui.label_14.setText("Constructing area chart...")
-                self.model.generate_area_chart(area_file)
+                area_file = create_filepath(filename, 'area_chart.png')
+                self.model.generate_area_chart(filename=area_file, isPDF=True)
                 self.pdf.write_to_pdf(""" 2. The area chart which describes actual and future BTC prices changing over time """)
                 
                 self.pdf.ln(15)
-                self.pdf.image(area_file, w=170)
+                self.pdf.image(area_file, w=190)
                 self.pdf.ln(40)
 
                 self.pdf.add_page()
-                scatter_file = create_filepath(filename, 'scatter_plot.png')
-                print(scatter_file)
                 self.main_menu.ui.label_14.setText("Constructing scatter plot...")
-                self.model.generate_scatter_plot(scatter_file)
+                scatter_file = create_filepath(filename, 'scatter_plot.png')
+                self.model.generate_scatter_plot(filename=scatter_file, isPDF=True)
                 self.pdf.write_to_pdf(""" 3. The scatter plot which compares actual and future BTC prices over time """)
                 
                 self.main_menu.ui.label_14.setText("Creating pdf report...")
                 self.pdf.ln(15)
-                self.pdf.image(scatter_file, w=170)
+                self.pdf.image(scatter_file, w=190)
 
                 self.pdf.output(filename, 'F')
                 self.main_menu.ui.label_14.setText("PDF report created successfully...")
-            except Exception as e:
-                print(str(e))
-                exc_type, _, exc_tb = sys.exc_info()
-                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1] 
-                print(exc_type, fname, exc_tb.tb_lineno)
-                self.main_menu.ui.label_14.setText(f"An error: {str(e)}")
+            except Exception:
+                self.main_menu.ui.label_14.setText("An error occured during generating. Please try again!")
 
     def toggleStyleSheet(self) -> None:
         if self.model.theme == "light":
@@ -153,7 +150,7 @@ class Controller(QObject):
             self.charts_view.show()
             self.charts_view.charts_shadow_effects()
 
-            self.charts_view.display_line_chart(self.model.actual_data)
+            self.charts_view.display_line_chart(self.model.generate_line_chart)
         except ValueError as val_e:
             msg = QMessageBox()
             msg.setText(str(val_e))

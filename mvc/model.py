@@ -16,9 +16,6 @@ from keras.callbacks import EarlyStopping
 from fpdf import FPDF
 import matplotlib.pyplot as plt
 
-np.random.seed(42)
-tf.random.set_seed(42)
-
 # PDF usage
 class PDF(FPDF):
     def write_to_pdf(self, words: str) -> None:
@@ -84,7 +81,7 @@ class Model:
         self.save_cache(os.getenv('BTC_CACHE_PATH'))
 
     def __pre_train(self, window_size: int) -> np.array:
-        series = self.__btc_daily['4b. close (USD)']
+        series = self.__actual_values
         scaler = MinMaxScaler(feature_range=(0, 1))
         scaled_data = scaler.fit_transform(np.array(series).reshape(-1, 1))
 
@@ -106,14 +103,6 @@ class Model:
     @theme.setter
     def theme(self, value: str) -> None:
         self.__theme = value
-  
-    @property
-    def actual_data(self) -> tuple[pd.Series, list, pd.DatetimeIndex, pd.Index]:
-        actual_prices = self.__btc_daily['4b. close (USD)']
-        timestamps = self.__btc_daily.index
-        x_pred = pd.date_range(start=timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
-
-        return actual_prices, self.__predictions, x_pred, timestamps
 
     # working with cache
     def save_cache(self, path: str, extension: str = 'csv') -> None:
@@ -131,13 +120,14 @@ class Model:
         if self._is_valid_cache():
             self.__btc_daily = self.__load_cache(os.getenv('BTC_CACHE_PATH')) 
             return None
-
-        btc_curr = CryptoCurrencies(key=os.getenv("API_KEY"), output_format='pandas')
-        btc_daily, _ = btc_curr.get_digital_currency_daily(symbol='BTC', market='CNY')
-        self.__btc_daily = pd.DataFrame.from_dict(btc_daily)
-    
+        try:
+            btc_curr = CryptoCurrencies(key=os.getenv("API_KEY"), output_format='pandas')
+            btc_daily, _ = btc_curr.get_digital_currency_daily(symbol='BTC', market='CNY')
+            self.__btc_daily = pd.DataFrame.from_dict(btc_daily)
+        except Exception:
+            raise ValueError("There was an error during fetching data")
         self.__prepare_data()
-    
+
     def train_lstm_model(self, window_size: int = 10) -> None:
         try:
             if self.__btc_daily.empty:
@@ -148,9 +138,9 @@ class Model:
 
             model = Sequential()
             model.add(LSTM(50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
-            model.add(Dropout(0.2))
+            # model.add(Dropout(0.2))
             model.add(LSTM(50, return_sequences=True))
-            model.add(Dropout(0.2))
+            # model.add(Dropout(0.2))
             model.add(Dense(1))
             model.add(LSTM(50))
             model.add(Dense(1))
@@ -158,7 +148,7 @@ class Model:
             model.compile(optimizer='adam', loss='mean_squared_error')
             early_stopping = EarlyStopping(patience=3, restore_best_weights=True)
 
-            model.fit(X_train, y_train, epochs=25, batch_size=64, validation_data=(X_val, y_val), callbacks=[early_stopping])
+            model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping])
             model.save(os.getenv('MODEL_CACHE_PATH'))
         except ValueError as val_e:
             raise ValueError(val_e)
@@ -191,8 +181,8 @@ class Model:
         self.__predictions = predictions
         print(self.__predictions)
 
-    def generate_line_chart(self, filename: str) -> None:
-        ax = plt.subplot()
+    def generate_line_chart(self, canvas = object, filename: str = "", isPDF: bool = False) -> None:
+        ax = plt.subplot() if isPDF else canvas
         
         x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
 
@@ -204,10 +194,11 @@ class Model:
         ax.set_ylabel('Prices (USD)')
         ax.legend()
 
-        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+        if isPDF:
+            plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
 
-    def generate_area_chart(self, filename: str) -> None:
-        ax = plt.subplot()
+    def generate_area_chart(self, canvas = object, filename: str = "", isPDF: bool = False) -> None:
+        ax = plt.subplot() if isPDF else canvas
         
         x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
 
@@ -221,15 +212,16 @@ class Model:
         ax.set_ylabel('Prices (USD)')
         ax.legend()
 
-        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+        if isPDF:
+            plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
 
-    def generate_scatter_plot(self, filename: str) -> None:
-        ax = plt.subplot()
+    def generate_scatter_plot(self, canvas = object, filename: str = "", isPDF: bool = False) -> None:
+        ax = plt.subplot() if isPDF else canvas
 
         x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
 
-        ax.scatter(self.__actual_timestamps, self.__actual_values, color='b', label='Actual prices')
-        ax.scatter(x_pred, self.__predictions, color='r', label='Predicted prices')
+        ax.scatter(self.__actual_timestamps, self.__actual_values, color='r', label='Actual prices')
+        ax.scatter(x_pred, self.__predictions, color='b', label='Predicted prices')
 
         ax.set_title('BTC prices Actual vs Predicted')
         ax.set_xlabel('Date')
@@ -237,5 +229,5 @@ class Model:
         ax.legend()
         ax.grid(True)
 
-        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
-
+        if isPDF:
+            plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)

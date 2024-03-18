@@ -11,7 +11,7 @@ __pycache__/
 *.so
 
 # Custom cache files
-./cache/lstm_model.h5
+cache/lstm_model.h5
 
 # Distribution / packaging
 .Python
