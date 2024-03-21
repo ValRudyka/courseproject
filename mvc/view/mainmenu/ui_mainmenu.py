@@ -270,6 +270,9 @@ class Ui_MainWindow(QObject):
         self.frame_6.setGeometry(QRect(40, 400, 351, 121))
         self.frame_6.setFrameShape(QFrame.StyledPanel)
         self.frame_6.setFrameShadow(QFrame.Raised)
+        self.label_16 = QLabel(self.frame_5)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setGeometry(QRect(250, 350, 91, 31))
         self.frame_6.raise_()
         self.label_10.raise_()
         self.label_11.raise_()
@@ -284,6 +287,7 @@ class Ui_MainWindow(QObject):
         self.loadDataset.raise_()
         self.convertPDF.raise_()
         self.label_14.raise_()
+        self.label_16.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
