@@ -3,7 +3,6 @@ from alpha_vantage.cryptocurrencies import CryptoCurrencies
 import pandas as pd
 import numpy as np
 import os
-import tensorflow as tf
 from datetime import datetime
 
 from sklearn.model_selection import train_test_split
@@ -18,7 +17,7 @@ import matplotlib.pyplot as plt
 
 # PDF usage
 class PDF(FPDF):
-    def write_to_pdf(self, words: str) -> None:
+    def write_to_pdf(self, words: str) -> None:    
         self.set_text_color(r=0, g=0, b=0)
         self.set_font('Helvetica', '', 12)
 
@@ -71,7 +70,8 @@ class Model:
 
         return now.date() == cache_date
 
-    def __prepare_data(self) -> None:
+    def __prepare_data(self) -> None: 
+        """Prepares data for future usage in prediction"""
         columns_for_drop = ['1a. open (CNY)', '2a. high (CNY)', '3a. low (CNY)', '4a. close (CNY)', '6. market cap (USD)']
 
         self.__btc_daily.index = pd.to_datetime(self.__btc_daily.index)
@@ -80,7 +80,11 @@ class Model:
 
         self.save_cache(os.getenv('BTC_CACHE_PATH'))
 
-    def __pre_train(self, window_size: int) -> np.array:
+    def __pre_train(self, window_size: int) -> tuple:
+        """Prepares data for training, using MinMaxScaler to ease the train process 
+            Receives: window_size - size of data which will be used for training
+            Returns: tuple with X, y values and scaler
+        """
         series = self.__actual_values
         scaler = MinMaxScaler(feature_range=(0, 1))
         scaled_data = scaler.fit_transform(np.array(series).reshape(-1, 1))
@@ -106,6 +110,9 @@ class Model:
 
     # working with cache
     def save_cache(self, path: str, extension: str = 'csv') -> None:
+        if self.__btc_daily.empty:
+            raise Exception('Have you loaded data before saving dataset?')
+        
         if extension == 'csv':
             self.__btc_daily.to_csv(path)
         else:
@@ -126,6 +133,7 @@ class Model:
             self.__btc_daily = pd.DataFrame.from_dict(btc_daily)
         except Exception:
             raise ValueError("There was an error during fetching data")
+        
         self.__prepare_data()
 
     def train_lstm_model(self, window_size: int = 10) -> None:
@@ -138,9 +146,9 @@ class Model:
 
             model = Sequential()
             model.add(LSTM(50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
-            # model.add(Dropout(0.2))
+            model.add(Dropout(0.2))
             model.add(LSTM(50, return_sequences=True))
-            # model.add(Dropout(0.2))
+            model.add(Dropout(0.2))
             model.add(Dense(1))
             model.add(LSTM(50))
             model.add(Dense(1))
@@ -148,7 +156,7 @@ class Model:
             model.compile(optimizer='adam', loss='mean_squared_error')
             early_stopping = EarlyStopping(patience=3, restore_best_weights=True)
 
-            model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_val, y_val), callbacks=[early_stopping])
+            model.fit(X_train, y_train, epochs=25, batch_size=64, validation_data=(X_val, y_val), callbacks=[early_stopping])
             model.save(os.getenv('MODEL_CACHE_PATH'))
         except ValueError as val_e:
             raise ValueError(val_e)
