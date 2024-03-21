@@ -12,4 +12,6 @@ shadow_elements_charts = {
 }
 
 TITLE  = "BTC price prediction report"
+CHARTS_WIDTH = 185
 
+LOADING_SPINNER_PATH = 'icons\loading_spinner.svg'
