@@ -1,32 +1,32 @@
-from PySide6.QtWidgets import QMainWindow
-from PySide6.QtWidgets import QGraphicsDropShadowEffect
-from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QMainWindow, QMessageBox, QLabel
+from PySide6.QtGui import QMovie
 
-from config import shadow_elements_main
-from mvc.view.interface.chartsview import ChartsView
 
 from mvc.view.mainmenu.ui_mainmenu import Ui_MainWindow
 
 class MainView(QMainWindow):
     def __init__(self) -> None:
         super(MainView, self).__init__()
-        self.charts_view = ChartsView()
-
+        self.message = QMessageBox()
+        self.movie = QMovie()
         self.build_ui()
 
     def build_ui(self) -> None:
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.setup_shadow_effects()
-        
+        self.ui.setupUi(self)        
         self.show()
 
+    def show_message(self, title: str, text: str) -> None:
+        self.message.setWindowTitle(title)
+        self.message.setText(text)
+        self.message.exec_()
 
-    def setup_shadow_effects(self) -> None:
-        for shadow_el in shadow_elements_main:
-            effect = QGraphicsDropShadowEffect(self.ui)
-            effect.setBlurRadius(15)
-            effect.setXOffset(0)
-            effect.setYOffset(0)
-            effect.setColor(QColor(0, 5, 5, 255))
-            getattr(self.ui, shadow_el).setGraphicsEffect(effect)
+    def start_movie(self, path: str, label: QLabel) -> None:
+        self.stop_movie()
+        self.movie.setFileName(path)
+        label.setMovie(self.movie)
+        self.movie.start()
+
+    def stop_movie(self) -> None:
+        self.movie.stop()
+        self.ui.label_15.clear()
