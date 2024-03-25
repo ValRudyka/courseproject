@@ -206,17 +206,6 @@ background-color: rgba(33, 43, 51, 100);
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="probability_distr_btn">
-            <property name="text">
-             <string>Probability Distribution</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/icons/icons/bar-chart-2.svg</normaloff>:/icons/icons/bar-chart-2.svg</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="scatter_plot_btn">
             <property name="text">
              <string>Scatter Plot</string>

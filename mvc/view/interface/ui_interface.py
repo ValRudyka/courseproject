@@ -8,7 +8,7 @@ class Ui_ChartsWindow(QObject):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(952, 597)
+        MainWindow.resize(935, 579)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"@font-face {\n"
@@ -109,18 +109,11 @@ class Ui_ChartsWindow(QObject):
         self.area_chart_btn = QPushButton(self.frame_4)
         self.area_chart_btn.setObjectName(u"area_chart_btn")
         icon1 = QIcon()
-        icon1.addFile(u"./icons/target.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"./icons/area-chart-64.ico", QSize(), QIcon.Normal, QIcon.Off)
         self.area_chart_btn.setIcon(icon1)
 
         self.verticalLayout_2.addWidget(self.area_chart_btn)
 
-        self.probability_distr_btn = QPushButton(self.frame_4)
-        self.probability_distr_btn.setObjectName(u"probability_distr_btn")
-        icon2 = QIcon()
-        icon2.addFile(u"./icons/bar-chart-2.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.probability_distr_btn.setIcon(icon2)
-
-        self.verticalLayout_2.addWidget(self.probability_distr_btn)
 
         self.scatter_plot_btn = QPushButton(self.frame_4)
         self.scatter_plot_btn.setObjectName(u"scatter_plot_btn")
@@ -382,12 +375,11 @@ class Ui_ChartsWindow(QObject):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("Charts", u"MainWindow", None))
         self.label_14.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Results", None))
         self.line_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Line Charts", None))
         self.area_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Area Charts", None))
-        self.probability_distr_btn.setText(QCoreApplication.translate("MainWindow", u"Probability Distribution", None))
         self.scatter_plot_btn.setText(QCoreApplication.translate("MainWindow", u"Scatter Plot", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"DASHBOARD", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Percentage Bar Chart", None))

@@ -1,5 +1,5 @@
 
-from PyQt5 import QtCore
+from PySide6 import QtCore
 
 qt_resource_data = b"\
 \x00\x01\x67\x84\
