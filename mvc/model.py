@@ -10,7 +10,6 @@ from sklearn.preprocessing import MinMaxScaler
 
 from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Dropout
-from keras.callbacks import EarlyStopping
 
 from fpdf import FPDF
 import matplotlib.pyplot as plt
@@ -154,9 +153,8 @@ class Model:
             model.add(Dense(1))
 
             model.compile(optimizer='adam', loss='mean_squared_error')
-            early_stopping = EarlyStopping(patience=3, restore_best_weights=True)
 
-            model.fit(X_train, y_train, epochs=25, batch_size=64, validation_data=(X_val, y_val), callbacks=[early_stopping])
+            model.fit(X_train, y_train, epochs=50, batch_size=10, validation_data=(X_val, y_val))
             model.save(os.getenv('MODEL_CACHE_PATH'))
         except ValueError as val_e:
             raise ValueError(val_e)
@@ -193,7 +191,7 @@ class Model:
         ax = plt.subplot() if isPDF else canvas
         
         x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
-
+        ax.clear()
         ax.plot(self.__actual_timestamps, self.__actual_values, color='r', label='Actual prices')
         ax.plot(x_pred, self.__predictions, color='b', label='Predicted prices')
         
@@ -203,13 +201,13 @@ class Model:
         ax.legend()
 
         if isPDF:
-            plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+            plt.savefig(filename, dpi=500, orientation='landscape')
 
     def generate_area_chart(self, canvas = object, filename: str = "", isPDF: bool = False) -> None:
         ax = plt.subplot() if isPDF else canvas
         
         x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
-
+        ax.clear()
         ax.plot(self.__actual_timestamps, self.__actual_values, color='r', label='Actual prices')
         ax.fill_between(self.__actual_timestamps, self.__actual_values, color='r', alpha=0.3)
         ax.plot(x_pred, self.__predictions, color='b', label='Predicted prices')
@@ -221,13 +219,13 @@ class Model:
         ax.legend()
 
         if isPDF:
-            plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+            plt.savefig(filename, dpi=500, orientation='landscape')
 
     def generate_scatter_plot(self, canvas = object, filename: str = "", isPDF: bool = False) -> None:
         ax = plt.subplot() if isPDF else canvas
 
         x_pred = pd.date_range(start=self.__actual_timestamps[-1], periods=len(self.__predictions)+1, freq='D')[1:]
-
+        ax.clear()
         ax.scatter(self.__actual_timestamps, self.__actual_values, color='r', label='Actual prices')
         ax.scatter(x_pred, self.__predictions, color='b', label='Predicted prices')
 
@@ -238,4 +236,4 @@ class Model:
         ax.grid(True)
 
         if isPDF:
-            plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+            plt.savefig(filename, dpi=500, orientation='landscape')
