@@ -1,10 +1,9 @@
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QLabel
 from PySide6.QtGui import QMovie
 
-
 from mvc.view.mainmenu.ui_mainmenu import Ui_MainWindow
 
-class MainView(QMainWindow):
+class MainView(QMainWindow):    
     def __init__(self) -> None:
         super(MainView, self).__init__()
         self.message = QMessageBox()

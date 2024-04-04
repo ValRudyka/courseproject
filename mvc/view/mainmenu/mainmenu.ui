@@ -470,9 +470,9 @@ QPushButton#convertPDF, QPushButton#fetchButton :hover{
      </property>
      <property name="styleSheet">
       <string notr="true">#fetchButton {
-	background-color: rgb(61, 80, 95);
-	border-radius: 5px;
-	border: 3px solid rgb(120, 157, 186);
+	padding: 10px;
+    border-radius: 3px;
+    background-color: #f0f0f0;  
 }
 #fetchButton:hover{
 	background-color: rgb(120, 157, 186);

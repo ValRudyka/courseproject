@@ -221,7 +221,7 @@ class Ui_MainWindow(QObject):
 "	font-size: 15px;\n"
 "}")
         self.label_13.setTextFormat(Qt.PlainText)
-        self.label_13.setAlignment(Qt.AlignLeft)
+        self.label_13.setAlignment(Qt.AlignCenter)
         self.predictPrices = QPushButton(self.frame_5)
         self.predictPrices.setObjectName(u"predictPrices")
         self.predictPrices.setGeometry(QRect(60, 350, 101, 41))
@@ -264,7 +264,7 @@ class Ui_MainWindow(QObject):
 "	font-size: 15px;\n"
 "}")
         self.label_14.setTextFormat(Qt.PlainText)
-        self.label_14.setAlignment(Qt.AlignVCenter)
+        self.label_14.setAlignment(Qt.AlignCenter)
         self.frame_6 = QFrame(self.frame_5)
         self.frame_6.setObjectName(u"frame_6")
         self.frame_6.setGeometry(QRect(40, 400, 351, 121))
