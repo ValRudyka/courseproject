@@ -1,11 +1,10 @@
 from PySide6.QtCore import QObject, QCoreApplication
-from PySide6.QtGui import QMovie
-from PySide6.QtWidgets import QMessageBox, QFileDialog
+from PySide6.QtWidgets import  QFileDialog
 
 from mvc.model import Model, PDF
 from mvc.view.view import View
 
-from config import TITLE, CHARTS_WIDTH, LOADING_SPINNER_PATH
+from config import TITLE, CHARTS_WIDTH, LOADING_SPINNER_PATH, LINE_CHART_HEIGHT 
 from utils import create_filepath
 
 class Controller(QObject):
@@ -13,7 +12,7 @@ class Controller(QObject):
         super().__init__()
         self.model = model 
         self.view = view
-        self.pdf = PDF()
+        self.pdf = PDF('landscape')
 
         self.view.main.ui.QPushButton.clicked.connect(lambda: self.view.toggleStyleSheet(self.model))
         self.view.main.ui.fetchButton.clicked.connect(self.fetch_data)
@@ -45,7 +44,7 @@ class Controller(QObject):
             try:
                 ending = filename[filename.find('.'):]
                 self.model.save_cache(filename, ending)
-                QMessageBox.information(self.view.main.ui.MainWindow, 'File has been saved successfully')
+                self.view.main.show_message('Successfull saving', 'File has been saved successfully')
             except Exception as error:
                 self.view.main.show_message('Saving file error', str(error))
 
@@ -57,35 +56,33 @@ class Controller(QObject):
         if filename:
             try:
                 self.pdf.add_page()
+                self.view.main.show_message('1st stage', 'Generating line chart...')
                 self.pdf.create_title(TITLE)
 
-                # self.view.main.ui.label_14.setText("Constructing line chart...")
                 line_file = create_filepath(filename, 'line_chart.png')
                 self.model.generate_line_chart(filename=line_file, isPDF=True)
                 self.pdf.write_to_pdf("1. The line chart which displays future BTC prices")
-                self.pdf.ln(15)
-
-                self.pdf.image(line_file, w=CHARTS_WIDTH)
+                self.pdf.ln(10)
+                self.pdf.image(line_file, h=LINE_CHART_HEIGHT, w=CHARTS_WIDTH)
                 self.pdf.ln(40)
 
                 self.pdf.add_page()
-                # self.view.main.ui.label_14.setText("Constructing area chart...")
+                self.view.main.show_message('2nd stage', 'Generating area chart...')
                 area_file = create_filepath(filename, 'area_chart.png')
                 self.model.generate_area_chart(filename=area_file, isPDF=True)
                 self.pdf.write_to_pdf(""" 2. The area chart which describes actual and future BTC prices changing over time """)
                 
-                self.pdf.ln(15)
+                self.pdf.ln(10)
                 self.pdf.image(area_file, w=CHARTS_WIDTH)
                 self.pdf.ln(40)
 
                 self.pdf.add_page()
-                # self.view.main.ui.label_14.setText("Constructing scatter plot...")
+                self.view.main.show_message('3rd stage', 'Generating scatter plot...')
                 scatter_file = create_filepath(filename, 'scatter_plot.png')
                 self.model.generate_scatter_plot(filename=scatter_file, isPDF=True)
                 self.pdf.write_to_pdf(""" 3. The scatter plot which compares actual and future BTC prices over time """)
-                
-                # self.view.main.ui.label_14.setText("Creating pdf report...")
-                self.pdf.ln(15)
+
+                self.pdf.ln(10)
                 self.pdf.image(scatter_file, w=CHARTS_WIDTH)
 
                 self.pdf.output(filename, 'F')
@@ -114,21 +111,22 @@ class Controller(QObject):
             case 'years':
                 interval *= 365
         self.view.main.start_movie(LOADING_SPINNER_PATH, self.view.main.ui.label_16)
+
         try:
             QCoreApplication.processEvents()
-            # self.view.main.ui.label_13.setText("Training the model...")
             self.model.train_lstm_model()
-            self.view.main.start_movie(LOADING_SPINNER_PATH, self.view.main.ui.label_16)
             QCoreApplication.processEvents()
-            # self.view.main.ui.label_13.setText("Predicting prices...")
+            self.view.main.start_movie(LOADING_SPINNER_PATH, self.view.main.ui.label_16)
             self.model.predict_model(interval)
-            # self.view.main.ui.label_13.setText("Prices predicted successfully...")
             self.view.main.stop_movie()
 
+            self.view.main.ui.label_16.clear()
             self.view.charts.show()
             self.view.setup_shadow_effects('charts')
             
             self.view.charts.display_line_chart(self.model.generate_line_chart)
         except ValueError as val_e:
             self.view.main.stop_movie()
-            self.view.main.show_message('File is empty error', str(val_e))  
+            self.view.main.show_message('File is empty error', str(val_e))
+        finally:
+            self.view.main.ui.label_16.clear()  
