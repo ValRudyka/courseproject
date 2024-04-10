@@ -20,10 +20,14 @@ class MainView(QMainWindow):
         self.message.setText(text)
         self.message.exec_()
 
-    def start_movie(self, path: str, label: QLabel) -> None:
+    def start_movie(self, path: str, type: str) -> None:
         self.stop_movie()
         self.movie.setFileName(path)
-        label.setMovie(self.movie)
+        match type:
+            case 'fetch':
+                self.ui.label_15.setMovie(self.movie)
+            case 'model':
+                self.ui.label_16.setMovie(self.movie)
         self.movie.start()
 
     def stop_movie(self) -> None:

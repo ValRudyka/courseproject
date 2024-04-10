@@ -25,7 +25,7 @@ class Controller(QObject):
         self.view.charts.ui.scatter_plot_btn.clicked.connect(self.scatter_plot)    
 
     def fetch_data(self) -> None:
-        self.view.main.start_movie(LOADING_SPINNER_PATH, self.view.main.ui.label_15)
+        self.view.main.start_movie(LOADING_SPINNER_PATH, 'fetch')
         try:
             QCoreApplication.processEvents()
             self.model.get_crypto_data()
@@ -110,13 +110,13 @@ class Controller(QObject):
                 interval *= 31
             case 'years':
                 interval *= 365
-        self.view.main.start_movie(LOADING_SPINNER_PATH, self.view.main.ui.label_16)
+        self.view.main.start_movie(LOADING_SPINNER_PATH, 'model')
 
         try:
             QCoreApplication.processEvents()
             self.model.train_lstm_model()
             QCoreApplication.processEvents()
-            self.view.main.start_movie(LOADING_SPINNER_PATH, self.view.main.ui.label_16)
+            self.view.main.start_movie(LOADING_SPINNER_PATH, 'model')
             self.model.predict_model(interval)
             self.view.main.stop_movie()
 
