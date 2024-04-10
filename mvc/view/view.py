@@ -29,9 +29,9 @@ class View(QMainWindow):
         else:
             self.__set_effects(self.charts.ui, shadow_elements_charts)            
     
-    def toggleStyleSheet(self, theme: str) -> None:
-        if theme == "light":
-            theme = 'dark'
+    def toggleStyleSheet(self, model: Model) -> None:
+        if model.theme == "light":
+            model.theme = 'dark'
             self.main.ui.QPushButton.setText('Light mode')
             self.main.ui.MainWindow.setStyleSheet(MAIN_MENU_DARK)
             self.charts.ui.centralwidget.setStyleSheet(u"@font-face {\n"
@@ -71,7 +71,7 @@ class View(QMainWindow):
                 "}\n"
                 "")
         else:
-            theme = "light"
+            model.theme = "light"
             self.main.ui.QPushButton.setText('Dark mode')
             self.main.ui.MainWindow.setStyleSheet(MAIN_MENU_LIGHT)
             self.charts.ui.centralwidget.setStyleSheet(u"@font-face {\n"
