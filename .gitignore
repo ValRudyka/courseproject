@@ -6,12 +6,12 @@ __pycache__/
 .idea/*
 *.py[cod]
 *$py.class
+.cache/
 
 # C extensions
 *.so
 
 # Custom cache files
-./cache
 # Distribution / packaging
 .Python
 env/
