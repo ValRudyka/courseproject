@@ -14,15 +14,17 @@ from keras.layers import Dense, LSTM, Dropout
 from fpdf import FPDF
 import matplotlib.pyplot as plt
 
-# PDF usage
+# Basic PDF class
 class PDF(FPDF):
     def write_to_pdf(self, words: str) -> None:    
+        """writes string to the pdf file"""
         self.set_text_color(r=0, g=0, b=0)
         self.set_font('Helvetica', '', 12)
 
         self.write(5, words)
 
     def create_title(self, title: str) -> None:
+        """creates title for a new sheet"""
         self.set_font('Helvetica', 'b', 12)
         self.ln(40) # ln means line break
 
@@ -161,7 +163,7 @@ class Model:
 
     def predict_model(self, num_days: int, window_size: int = 10) -> None:
         _, _, scaler = self.__pre_train(window_size)
-        series = self.__btc_daily['4b. close (USD)'].values
+        series = self.__actual_values
 
         series_scaled = scaler.transform(series.reshape(-1, 1))
 
