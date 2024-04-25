@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
-from mvc.view.interface.ui_interface import Ui_ChartsWindow
+from mvc.view.charts.ui_interface import Ui_ChartsWindow
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
