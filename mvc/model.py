@@ -14,7 +14,7 @@ from keras.layers import Dense, LSTM, Dropout
 from fpdf import FPDF
 import matplotlib.pyplot as plt
 
-# Basic PDF class
+# Working with PDF
 class PDF(FPDF):
     def write_to_pdf(self, words: str) -> None:    
         """writes string to the pdf file"""
@@ -61,6 +61,10 @@ class Model:
             return None
 
     def _is_valid_cache(self) -> bool:
+        """Checks if there is need in updating cache based on date comparison 
+            (current date with last one in dataset).
+            Returns True if dates are equal and False otherwise    
+        """
         data = self.__load_cache(os.getenv('BTC_CACHE_PATH'))
 
         if not isinstance(data, pd.DataFrame) or data.empty:
@@ -82,7 +86,7 @@ class Model:
         self.save_cache(os.getenv('BTC_CACHE_PATH'))
 
     def __pre_train(self, window_size: int) -> tuple:
-        """Prepares data for training, using MinMaxScaler to ease the train process 
+        """ Prepares data for training, using MinMaxScaler to ease the train process 
             Receives: window_size - size of data which will be used for training
             Returns: tuple with X, y values and scaler
         """
@@ -123,7 +127,7 @@ class Model:
         with open(path, 'w'):
             pass
 
-    # working with data
+    # working with data (except for private methods)
     def get_crypto_data(self) -> None:
         if self._is_valid_cache():
             self.__btc_daily = self.__load_cache(os.getenv('BTC_CACHE_PATH')) 
@@ -138,6 +142,7 @@ class Model:
         self.__prepare_data()
 
     def train_lstm_model(self, window_size: int = 10) -> None:
+        """Trains LSTM model using hidden layers like Dense and Dropout one"""
         try:
             if self.__btc_daily.empty:
                 raise ValueError('An empty dataset. Have you loaded it firstly before start working?')
@@ -189,6 +194,7 @@ class Model:
         self.__predictions = predictions
         print(self.__predictions)
 
+    # charts
     def generate_line_chart(self, canvas = object, filename: str = "", isPDF: bool = False) -> None:
         ax = plt.subplot() if isPDF else canvas
         
