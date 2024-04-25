@@ -1,16 +1,17 @@
-from PySide6.QtWidgets import QMainWindow, QMessageBox, QLabel
+from PySide6.QtWidgets import QMainWindow, QMessageBox
 from PySide6.QtGui import QMovie
 
 from mvc.view.mainmenu.ui_mainmenu import Ui_MainWindow
+from config import LOADING_SPINNER_PATH
 
 class MainView(QMainWindow):    
     def __init__(self) -> None:
         super(MainView, self).__init__()
         self.message = QMessageBox()
-        self.movie = QMovie()
-        self.build_ui()
+        self.movie = QMovie(fileName=LOADING_SPINNER_PATH)
+        self.__build_ui()
 
-    def build_ui(self) -> None:
+    def __build_ui(self) -> None:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)        
         self.show()
@@ -20,9 +21,7 @@ class MainView(QMainWindow):
         self.message.setText(text)
         self.message.exec_()
 
-    def start_movie(self, path: str, type: str) -> None:
-        self.stop_movie()
-        self.movie.setFileName(path)
+    def start_movie(self, type: str) -> None:
         match type:
             case 'fetch':
                 self.ui.label_15.setMovie(self.movie)
