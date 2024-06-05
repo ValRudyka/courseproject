@@ -3,12 +3,14 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from mvc.view import resources_rc
+from mvc.view.ui_config import CHARTS_ICON_PATH
 
 class Ui_ChartsWindow(QObject):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(935, 579)
+        MainWindow.setWindowIcon(QIcon(CHARTS_ICON_PATH))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"@font-face {\n"

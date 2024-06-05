@@ -153,3 +153,6 @@ MAIN_MENU_LIGHT = u"""
     background-color: rgb(180, 180, 180);
 }
 """
+
+MAIN_ICON_PATH = './icons/noun-prediction.png'
+CHARTS_ICON_PATH = './icons/noun-chart.png'

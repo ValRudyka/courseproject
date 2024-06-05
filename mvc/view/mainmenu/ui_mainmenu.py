@@ -3,7 +3,7 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 import mvc.view.resources_rc as resources_rc
-from mvc.view.ui_config import MAIN_MENU_DARK
+from mvc.view.ui_config import MAIN_MENU_DARK, MAIN_ICON_PATH
 
 class Ui_MainWindow(QObject):
     def setupUi(self, MainWindow):
@@ -12,6 +12,7 @@ class Ui_MainWindow(QObject):
         self.MainWindow = MainWindow
         MainWindow.resize(939, 631)
         MainWindow.setStyleSheet(MAIN_MENU_DARK)
+        MainWindow.setWindowIcon(QIcon(MAIN_ICON_PATH))
         self.actionDark = QAction(MainWindow)
         self.actionDark.setObjectName(u"actionDark")
         self.actionLight = QAction(MainWindow)
@@ -55,12 +56,12 @@ class Ui_MainWindow(QObject):
         self.frame_3 = QFrame(self.centralwidget)
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setGeometry(QRect(0, 90, 431, 531))
-        self.frame_3.setStyleSheet(u"QLabel#label_2, QLabel#label_3, QLabel#label_4, QLabel#label_5 {\n"
+        self.frame_3.setStyleSheet(u"QLabel#label_2, QLabel#label_3, QLabel#label_4 {\n"
             " line-height: 1.5\n"
         "}")
         self.frame_3.setFrameShape(QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QFrame.Raised)
-        self.frame_3.setStyleSheet(u"QLabel#label_2, QLabel#label_3, QLabel#label_4, QLabel#label_5 {\n"
+        self.frame_3.setStyleSheet(u"QLabel#label_2, QLabel#label_3, QLabel#label_4 {\n"
 " line-height: 1.5\n"
 "}")
         self.label = QLabel(self.frame_3)
@@ -92,12 +93,6 @@ class Ui_MainWindow(QObject):
         self.label_4.setTextFormat(Qt.PlainText)
         self.label_4.setWordWrap(True)
         self.label_4.setOpenExternalLinks(True)
-        self.label_5 = QLabel(self.frame_3)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(10, 270, 401, 71))
-        self.label_5.setTextFormat(Qt.PlainText)
-        self.label_5.setWordWrap(True)
-        self.label_5.setOpenExternalLinks(True)
         self.label_6 = QLabel(self.frame_3)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(10, 360, 381, 41))
@@ -310,7 +305,6 @@ class Ui_MainWindow(QObject):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"2. Choose a certain time interval to predict prices. You can choose for several days, weeks, months and years. By default you predict for 2 days.", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"1. Download the data from API. After downloading the data your result will be stored in cache. You can clear cache manually by pressign \"Clear cache\" button which will appear after response.", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"3. Now it is time to predict prices. Press the \"Predict\" button to start modeling data and creating a full report of the preidction. You will see results in the new window where you can navigate through charts by sidebar to see the results.", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"4. In addition to previous stage, the program stores model fitting results in cache to deal with the same data faster in the next time.", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Extra", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"1. You have two options what to do with results. First one is about loading the whole dataset which will be stored as Excel file", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"2. Second one creates PDF report which displays all charts ", None))
