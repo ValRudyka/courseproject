@@ -377,11 +377,11 @@ class Ui_ChartsWindow(QObject):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("Charts", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Charts", None))
         self.label_14.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Results", None))
-        self.line_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Line Charts", None))
-        self.area_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Area Charts", None))
+        self.line_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Line Chart", None))
+        self.area_chart_btn.setText(QCoreApplication.translate("MainWindow", u"Area Chart", None))
         self.scatter_plot_btn.setText(QCoreApplication.translate("MainWindow", u"Scatter Plot", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"DASHBOARD", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Percentage Bar Chart", None))

@@ -268,6 +268,9 @@ class Ui_MainWindow(QObject):
         self.label_16 = QLabel(self.frame_5)
         self.label_16.setObjectName(u"label_16")
         self.label_16.setGeometry(QRect(250, 350, 91, 31))
+        self.label_17 = QLabel(self.frame_6)
+        self.label_17.setObjectName(u"label_17")
+        self.label_17.setGeometry(QRect(320, 50, 91, 61))
         self.frame_6.raise_()
         self.label_10.raise_()
         self.label_11.raise_()
@@ -283,6 +286,7 @@ class Ui_MainWindow(QObject):
         self.convertPDF.raise_()
         self.label_14.raise_()
         self.label_16.raise_()
+        self.label_17.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
