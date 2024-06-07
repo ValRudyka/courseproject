@@ -27,6 +27,8 @@ class MainView(QMainWindow):
                 self.ui.label_15.setMovie(self.movie)
             case 'model':
                 self.ui.label_16.setMovie(self.movie)
+            case 'pdf':
+                self.ui.label_17.setMovie(self.movie)
         self.movie.start()
 
     def stop_movie(self) -> None:
