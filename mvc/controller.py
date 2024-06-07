@@ -43,6 +43,10 @@ class Controller(QObject):
 
     # Saves cached data as csv or excel file
     def save_dataset(self) -> None:
+        if self.__model.is_empty():
+            self.__view.main.show_message('Not enough data', 'Have you loaded actual timestamps before?')
+            return
+        
         options = QFileDialog.Options()
         filename, _ = QFileDialog.getSaveFileName(self.__view.main.ui.MainWindow, "Save Dataset", "", 
                                                 "CSV files (.csv);;Excel files (.xlsx);;All files (*)", options=options)        
@@ -57,10 +61,15 @@ class Controller(QObject):
 
     # Converts prediction results into pdf report
     def convert_to_pdf(self) -> None:
+        if self.__model.is_empty():
+            self.__view.main.show_message('Accessing data error', 'There is no enough data for the operation!')
+            return
+        
         options = QFileDialog.Options()
         filename, _ = QFileDialog.getSaveFileName(self.__view.main.ui.MainWindow, "Save Dataset", "", 
                                                   "PDF files (.pdf)", options=options) 
 
+        self.__view.main.start_movie('pdf')
         if filename:
             try:
                 self.pdf.add_page()
@@ -97,6 +106,8 @@ class Controller(QObject):
                 self.__view.main.show_message('Successful converting', 'File has been created successfully')    
             except Exception:
                 self.__view.main.show_message('PDF converting error', 'An error occured during converting. Please try again')
+            finally:
+                self.__view.main.stop_movie()
 
     # Abstraction over displaying methods 
     def line_chart(self) -> None:
