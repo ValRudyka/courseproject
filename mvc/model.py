@@ -48,7 +48,7 @@ class Model:
     # Private methods:
     @property
     def __actual_values(self) -> np.ndarray:
-        return self.__btc_daily['4b. close (USD)'].values
+        return self.__btc_daily['4. close'].values
 
     @property
     def __actual_timestamps(self) -> pd.Index:
@@ -77,10 +77,10 @@ class Model:
 
     def __prepare_data(self) -> None: 
         """Prepares data for future usage in prediction"""
-        columns_for_drop = ['1a. open (CNY)', '2a. high (CNY)', '3a. low (CNY)', '4a. close (CNY)', '6. market cap (USD)']
+        # columns_for_drop = ['1a. open (CNY)', '2a. high (CNY)', '3a. low (CNY)', '4a. close (CNY)', '6. market cap (USD)']
 
         self.__btc_daily.index = pd.to_datetime(self.__btc_daily.index)
-        self.__btc_daily.drop(columns=columns_for_drop, inplace=True)
+        # self.__btc_daily.drop(columns=columns_for_drop, inplace=True)
         self.__btc_daily.sort_index(inplace=True)
 
         self.save_cache(os.getenv('BTC_CACHE_PATH'))
@@ -134,12 +134,15 @@ class Model:
             return None
         try:
             btc_curr = CryptoCurrencies(key=os.getenv("API_KEY"), output_format='pandas')
-            btc_daily, _ = btc_curr.get_digital_currency_daily(symbol='BTC', market='CNY')
+            btc_daily, _ = btc_curr.get_digital_currency_daily(symbol='BTC', market='EUR')
             self.__btc_daily = pd.DataFrame.from_dict(btc_daily)
         except Exception:
             raise ValueError("There was an error during fetching data")
         
         self.__prepare_data()
+
+    def is_empty(self) -> bool:
+        return self.__actual_timestamps.empty or len(self.__predictions) == 0
 
     def train_lstm_model(self, window_size: int = 10) -> None:
         """Trains LSTM model using hidden layers like Dense and Dropout one"""
@@ -151,7 +154,8 @@ class Model:
             X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
             model = Sequential()
-            model.add(LSTM(50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+            model.add(LSTM(50, return_sequences=True, 
+                           input_shape=(X_train.shape[1], 1)))
             model.add(Dropout(0.2))
             model.add(LSTM(50, return_sequences=True))
             model.add(Dropout(0.2))
@@ -161,7 +165,8 @@ class Model:
 
             model.compile(optimizer='adam', loss='mean_squared_error')
 
-            model.fit(X_train, y_train, epochs=50, batch_size=10, validation_data=(X_val, y_val))
+            model.fit(X_train, y_train, epochs=50, 
+                      batch_size=10, validation_data=(X_val, y_val))
             model.save(os.getenv('MODEL_CACHE_PATH'))
         except ValueError as val_e:
             raise ValueError(val_e)
