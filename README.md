@@ -3,7 +3,7 @@
 This is my courseproject GUI application which predicts the bitcoin price for several intervals. User load the data from an API, then choose the interval and press "Predict" button.
 After completing prediction another window opens and show you the results in different charts.
 
-Main menu window:
+Main menu window:  
 ![image](https://github.com/user-attachments/assets/d59ef5a3-5e16-4a5b-b171-31c786b94aa8)
 
 # Fetching data
